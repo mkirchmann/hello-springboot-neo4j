@@ -30,6 +30,7 @@ import de.neuenberger.grocerylist.model.units.PieceUnit;
 import de.neuenberger.grocerylist.model.units.StringToUnitConverter;
 import de.neuenberger.grocerylist.model.units.UnitToStringConverter;
 import de.neuenberger.grocerylist.model.units.WeightUnit;
+import de.neuenberger.grocerylist.properties.SystemStringProperties;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -52,7 +53,8 @@ public class Application implements CommandLineRunner {
 
 		@Bean
 		GraphDatabaseService graphDatabaseService() {
-			return new SpringRestGraphDatabase("http://localhost:7474/db/data", "neo4j", "groc1234");
+			return new SpringRestGraphDatabase(SystemStringProperties.NEO4J_SERVER.getValue(),
+					SystemStringProperties.NEO4J_USERNAME.getValue(), SystemStringProperties.NEO4J_PASSWORD.getValue());
 		}
 
 		@Override
@@ -79,6 +81,7 @@ public class Application implements CommandLineRunner {
 	@Autowired
 	GraphDatabase graphDatabase;
 
+	@Override
 	public void run(final String... args) throws Exception {
 
 		final Shopper shopper1 = new Shopper("Michael");
